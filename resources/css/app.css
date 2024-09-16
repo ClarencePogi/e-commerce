@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "~@fortawesome/fontawesome-free/css/all.css";
+
+@layer components {
+    .nav-hover {
+        @apply bg-slate-200 text-black;
+    }
+
+    .nav {
+        @apply grid justify-items-center items-center w-full h-full cursor-pointer;
+    }
+
+    .primary-btn {
+        @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
+    }
+
+    .dark-btn {
+        @apply bg-slate-950 w-32 h-10 rounded-lg text-white;
+    }
+
+    .danger-btn {
+        @apply bg-red-600 w-32 h-10 rounded-lg text-white;
+    }
+
+    .product-modal {
+        @apply absolute w-[35%] h-[70%] top-[15%] left-[35%] border border-slate-500 rounded-md bg-slate-50 grid grid-cols-1 grid-rows-8;
+    }
+
+    .product-form > .inputs > input {
+        @apply bg-slate-50 border pl-3 max-h-12 max-w-[90%] w-full mt-5;
+    }
+
+    #product_table tr:nth-child(even) {
+        @apply bg-slate-200;
+    }
+
+    #product_table tr:nth-child(odd) {
+        @apply bg-slate-300;
+    }
+
+    .custom-line-through {
+        text-decoration: line-through;
+        text-decoration-color: red; /* Change to your desired color */
+    }
+
+    .card {
+        background-size: 100% 60%;
+        @apply bg-slate-900 grid max-w-[350px] relative w-[320px] h-[550px] bg-no-repeat rounded-2xl shadow-lg;
+    }
+
+    .outOfStock {
+        @apply opacity-50 pointer-events-none cursor-not-allowed;
+    }
+
+    .dash-card {
+        background-color: rgb(44 175 254);
+        @apply h-[60%] w-[90%] text-slate-100 rounded-lg shadow-lg  grid grid-cols-2 justify-items-center items-center;
+    }
+}
