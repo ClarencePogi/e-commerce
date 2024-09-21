@@ -29,7 +29,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        if (!Auth::user()->hasRole('admin')) {
+        if (!Auth::user()->hasRole(['superadministrator', 'admin'])) {
             abort(403, 'Unauthorized action.');
         }
 

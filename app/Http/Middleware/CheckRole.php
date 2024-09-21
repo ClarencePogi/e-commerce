@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth; // Import Auth facade
 
 class CheckRole
 {
@@ -13,11 +14,16 @@ class CheckRole
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, ...$roles)
     {
-        Log::info('Middleware is working', ['request' => $request->all()]);
+        foreach ($roles as $role) {
+            if(Auth::user()->hasRole($role)){
+                return $next($request);
+            }
+        }
+
+        abort(403, 'Unauthorized action.');
         
-        return $next($request);
         // return $next($request); // Allow if the user has one of the roles
         
         // return redirect('/no-access')->with('error', 'You do not have permission to access this page.');

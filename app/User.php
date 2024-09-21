@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laratrust\Traits\LaratrustUserTrait;
+use App\Models\Role;
 
 class User extends Authenticatable{
     use LaratrustUserTrait;
@@ -14,7 +15,7 @@ class User extends Authenticatable{
      * @var array
      */
     protected $fillable = [
-        'name', 'phonenumber', 'email',  'eWalletNumber', 'address', 'password',
+        'name', 'phonenumber', 'email',  'eWalletNumber', 'address', 'password', 'status'
     ];
 
     /**
@@ -34,4 +35,8 @@ class User extends Authenticatable{
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function roles() {
+    //     return $this->belongsToMany(Role::class);
+    // }
 }

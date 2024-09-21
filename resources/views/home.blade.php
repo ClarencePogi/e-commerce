@@ -13,24 +13,110 @@
 </head>
 
 <body class="w-screen h-screen grid grid-cols-1 grid-rows-1">
-    @if (Auth::user()->hasRole('admin'))
-        <div class="bg-stone-950 grid grid-cols-6 grid-rows-1">
+    @if (Auth::user()->hasRole('superadministrator') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('chat support'))
+        <div class="bg-stone-950 grid grid-cols-7 grid-rows-1">
             {{-- Sidebar --}}
             <div class="col-span-1 bg-slate-900 md:grid hidden grid-cols-1 grid-rows-5 side-bar">
                 <div class="logo row-span-1 grid justify-items-center items-center">
                     <img src="../assets/logo.png" class="w-full h-full" alt="">
                 </div>
-                <div class="nav row-span-2 grid grid-cols-1 text-slate-100 pt-10">
-                    <div class="hover:nav-hover nav dashboard"><a href="{{ route('dashboard.view') }}">Dashboard</a></div>
-                    <div class="hover:nav-hover nav products"><a href="{{ route('products.view') }}">Products</a></div>
-                    <div class="hover:nav-hover nav orders"><a href="{{ route('orders.view') }}">Orders</a></div>
-                    <div class="hover:nav-hover nav"><a data-modal-target="popup-modal" data-modal-toggle="popup-modal">Logout</a></div>
+                <div class="nav-container">
+                    <ul class="space-y-2 font-medium">
+                        @if (Auth::user()->hasPermission(['product-create', 'product-read ', 'product-update', 'product-delete']))
+                            <li>
+                                <a href="{{ route('dashboard.view') }}"
+                                    class="flex items-center p-2 text-slate-100 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-slate-950 group">
+                                    <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                        viewBox="0 0 22 21">
+                                        <path
+                                            d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
+                                        <path
+                                            d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
+                                    </svg>
+                                    <span class="ms-3">Dashboard</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (Auth::user()->hasPermission(['users-create', 'users-read ', 'users-update', 'users-delete']))
+                            <li>
+                                <button type="button"
+                                    class="flex items-center w-full p-2 text-base text-slate-100 transition duration-75 rounded-lg group hover:bg-gray-100 hover:text-slate-950 dark:text-white dark:hover:bg-gray-700"
+                                    aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+
+                                    <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                        viewBox="0 0 20 18">
+                                        <path
+                                            d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
+                                    </svg>
+                                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Admin</span>
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 10 6">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m1 1 4 4 4-4" />
+                                    </svg>
+                                </button>
+                                <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                                    <li>
+                                        <a href="{{ route('user.view') }}"
+                                            class="flex items-center w-full p-2 text-slate-100 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-slate-950 dark:text-white dark:hover:bg-gray-700">Manage
+                                            user</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('privilege.view') }}"
+                                            class="flex items-center w-full p-2 text-slate-100 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-slate-950 dark:text-white dark:hover:bg-gray-700">Manage
+                                            privilege</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                        @if (Auth::user()->hasPermission(['product-create', 'product-read ', 'product-update', 'product-delete']))
+                            <li>
+                                <a href="{{ route('products.view') }}"
+                                    class="flex items-center p-2 text-slate-100 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-slate-950 group">
+
+                                    <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                        viewBox="0 0 18 20">
+                                        <path
+                                            d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
+                                    </svg>
+                                    <span class="ms-3">Products</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('orders.view') }}"
+                                    class="flex items-center p-2 text-slate-100 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-slate-950 group">
+
+                                    <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                        viewBox="0 0 18 21">
+                                        <path
+                                            d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z" />
+                                    </svg>
+                                    <span class="ms-3">Orders</span>
+                                </a>
+                            </li>
+                        @endif
+                        <li>
+                            <a data-modal-target="popup-modal" data-modal-toggle="popup-modal"
+                                class="flex items-center p-2 cursor-pointer hover:text-red-600 text-slate-100 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition  duration-75 dark:text-gray-400 group-hover:text-red-600 dark:group-hover:text-white"
+                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 18 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
+                                </svg>
+                                <span class="ms-3">Logout</span>
+                            </a>
+                        </li>
                 </div>
-                <div class="nothing row-span-2"></div>
             </div>
 
             {{-- Content --}}
-            <div class="content md:col-span-5 col-span-6">
+            <div class="content md:col-span-6 col-span-7">
                 @yield('content')
             </div>
         </div>
@@ -51,7 +137,7 @@
                                 class="fa-regular fa-user text-white text-2xl"></i></button>
                         <div
                             class="w-[30%] h-auto bg-slate-100 absolute right-11 top-[63%] hidden profile-dropdown p-3">
-                            <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" >Logout</button>
+                            <button data-modal-target="popup-modal" data-modal-toggle="popup-modal">Logout</button>
                             {{-- <a href="{{ route('logout') }}" class="text-center font-bold hover:text-red-600">Logout</a> --}}
                         </div>
                     </div>
@@ -76,7 +162,8 @@
                         <a href="{{ route('userOrders.view') }}">
                             <div class="flex text-1xl font-semibold grid-cols-2 justify-center gap-5 pt-5 h-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 1024 1024"
-                                    class="" width="24" height="24" viewBox="0 0 1024 1024" id="order">
+                                    class="" width="24" height="24" viewBox="0 0 1024 1024"
+                                    id="order">
                                     <path
                                         d="M537.2,918.7c-14.1-7.4-28.2-14.9-42.3-22.3c-33.9-17.9-67.7-35.8-101.6-53.7
                                                                           c-41.1-21.7-82.3-43.4-123.4-65.2c-35.4-18.7-70.9-37.4-106.3-56.1c-17.2-9.1-34.3-18.5-51.7-27.3c-0.2-0.1-0.5-0.3-0.7-0.4
@@ -184,18 +271,17 @@
                             <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                                 <div class="flex items-center ps-3">
                                     <input id="all-checkbox" type="radio" value="all"
-                                        onclick="generateAllProducts()"
-                                        name="sort"
+                                        onclick="generateAllProducts()" name="sort"
                                         class="cat-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                     <label for="all-checkbox"
-                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">All Products</label>
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">All
+                                        Products</label>
                                 </div>
                             </li>
                             <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                                 <div class="flex items-center ps-3">
                                     <input id="featured-checkbox" type="radio" value="featured"
-                                        onclick="sortFeatured()"
-                                        name="sort"
+                                        onclick="sortFeatured()" name="sort"
                                         class="cat-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                     <label for="featured-checkbox"
                                         class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Featured</label>
@@ -203,10 +289,8 @@
                             </li>
                             <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                                 <div class="flex items-center ps-3">
-                                    <input id="sale-checkbox" type="radio" value="onsale"
-                                        onclick="sortSale()"
+                                    <input id="sale-checkbox" type="radio" value="onsale" onclick="sortSale()"
                                         name="sort"
-
                                         class="cat-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                     <label for="sale-checkbox"
                                         class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">On
@@ -221,27 +305,39 @@
         </div>
     @endif
 
+ 
 
-    <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div id="popup-modal" tabindex="-1"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                <button type="button"
+                    class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-hide="popup-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                     </svg>
                     <span class="sr-only">Close modal</span>
                 </button>
                 <div class="p-4 md:p-5 text-center">
-                    <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                    <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to
+                        delete this product?</h3>
                     <a href="{{ route('logout') }}">
-                        <button data-modal-hide="popup-modal" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                        <button data-modal-hide="popup-modal" type="button"
+                            class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                             Yes, I'm sure
                         </button>
                     </a>
-                    <button data-modal-hide="popup-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
+                    <button data-modal-hide="popup-modal" type="button"
+                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No,
+                        cancel</button>
                 </div>
             </div>
         </div>

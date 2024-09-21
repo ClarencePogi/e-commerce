@@ -28,9 +28,9 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'phonenumber' => ['required', 'regex:/^(09|\+639)[0-9]{9,9}$/'],
             'email' => ['required', 'string', 'email','max:255','unique:users,email'],
-            'eWalletNumber' => 'required|regex:/^\d{6,6}$/|unique:users',
+            'eWalletNumber' => ['nullable', 'regex:/^\d{6,6}$/', 'unique:users'],
             'address' => 'required|string|max:100',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8|confirmed'
         ]);
 
         // Create user

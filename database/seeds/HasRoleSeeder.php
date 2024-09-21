@@ -13,6 +13,6 @@ class HasRoleSeeder extends Seeder
     public function run()
     {
        $admin = User::find(1);
-       $admin->attachRole("admin");
+       $admin->attachRole("superadministrator");
     }
 }

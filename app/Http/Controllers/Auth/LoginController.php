@@ -28,16 +28,33 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
-            if(auth()->user()->hasRole('admin')) {
-                return redirect()->intended('home/dashboard');
+            
+           
+                // return redirect()->back()->with('error', 'This account is inactive!');
+                
 
-            } else {
-                return redirect()->intended('home/featured');
-
+            if(auth()->user()->hasRole(['superadministrator'])) {
+                return redirect()->route('user.view');
             }
 
+            if(auth()->user()->hasRole(['chat support'])) {
+                // dd('testing asd');
+                return redirect()->route('support.view');
+            }
+            
+            if(auth()->user()->hasRole(['admin'])) {
+                return redirect()->route('dashboard.view');
+
+            } else {
+                //USER
+                return redirect()->intended('home/featured');
+            }
+
+            //Is active
+            
             return redirect()->intended('home');
         }
+        dd('test');
 
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
     }

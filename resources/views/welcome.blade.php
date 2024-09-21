@@ -3,6 +3,9 @@
 @section('content')
     @auth
     @else
+        @error('error')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
         <div class="absolute w-[30%] h-[40%] top-[30%] left-[60%] bg-gray-300 z-10 rounded-md">
             <form method="POST" action="{{ route('login') }}" class="h-full grid grid-rows-8">
                 <h1 class="text-4xl text-center font-semibold mt-2 row-span-1">Sign in</h2>
@@ -22,5 +25,5 @@
                     </div>
             </form>
         </div>
-    @endif
-@endsection
+        @endif
+    @endsection
